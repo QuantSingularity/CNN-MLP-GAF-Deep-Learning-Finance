@@ -1,6 +1,6 @@
 # CNN-MLP-GAF-Deep-Learning-Finance
 
-> **QuantSingularity - Deep Learning for Finance**
+> **Deep Learning for Finance**
 > Applying MLP and CNN-GAF architectures to Bitcoin price forecasting and direction classification.
 
 ---
