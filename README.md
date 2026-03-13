@@ -146,7 +146,7 @@ seaborn
 git clone https://github.com/QuantSingularity/CNN-MLP-GAF-Deep-Learning-Finance.git
 cd CNN-MLP-GAF-Deep-Learning-Finance
 pip install yfinance pyts tensorflow scikit-learn statsmodels matplotlib seaborn pandas numpy
-jupyter notebook notebook.ipynb
+jupyter notebook BTC-MLP-CNN-GAF-Forecasting.ipynb
 ```
 
 ---
