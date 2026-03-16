@@ -1,6 +1,7 @@
 # CNN-MLP-GAF-Deep-Learning-Finance
 
 > **Deep Learning for Finance**
+
 > Applying MLP and CNN-GAF architectures to Bitcoin price forecasting and direction classification.
 
 ---
@@ -167,15 +168,6 @@ No manual data download required - the notebook fetches data automatically.
 ## Topics Covered
 
 `deep-learning` `time-series` `bitcoin` `financial-forecasting` `convolutional-neural-network` `mlp` `gramian-angular-field` `fractional-differencing` `stationarity` `adf-test` `log-returns` `quantitative-finance` `tensorflow` `python` `jupyter-notebook`
-
----
-
-## Course Info
-
-| Field        | Detail                    |
-| ------------ | ------------------------- |
-| Organization | QuantSingularity          |
-| Domain       | Deep Learning for Finance |
 
 ---
 
