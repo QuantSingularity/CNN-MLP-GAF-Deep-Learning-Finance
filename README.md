@@ -22,23 +22,23 @@ Three data representations are compared across two model architectures:
 
 ## Methodology
 
-### Step 1 - Time Series Analysis
+### Time Series Analysis
 
 This section analyzes the Bitcoin (BTC-USD) price series using three different representations.
 
-#### Step 1a - Raw Price Series (Levels)
+#### Raw Price Series (Levels)
 
 The raw BTC-USD price series exhibits strong non-stationarity with a clear upward trend over the analysis period. The ADF test confirms non-stationarity (p-value > 0.05), indicating the presence of a unit root. The ACF shows very slow decay, characteristic of a random walk process. The distribution is highly right-skewed with heavy tails, reflecting Bitcoin's explosive growth periods.
 
-#### Step 1b - Stationary Transformation (Log-Returns)
+#### Stationary Transformation (Log-Returns)
 
 Log-returns are computed as r*t = ln(P_t / P*{t-1}). Log-returns successfully transform the series into a stationary representation, as confirmed by the ADF test (p-value < 0.05). The series fluctuates around zero with no discernible trend. However, this transformation removes all memory of the original price levels, potentially discarding valuable long-term information. The distribution shows excess kurtosis, indicating fat tails typical of financial returns.
 
-#### Step 1c - Fractional Differencing
+#### Fractional Differencing
 
 Fractional differencing is implemented using the fixed-width window method (Lopez de Prado, _Advances in Financial Machine Learning_, Ch. 5). The optimal differencing order d\* is found by searching for the minimum d where ADF p-value < 0.05. This approach achieves stationarity while maintaining a higher correlation with the original price levels compared to log-returns, suggesting better preservation of long-term dependencies.
 
-#### Step 1d - Comparative Commentary
+#### Comparative Commentary
 
 | Representation          | Stationarity   | Memory  | Suitable For             |
 | ----------------------- | -------------- | ------- | ------------------------ |
@@ -48,51 +48,51 @@ Fractional differencing is implemented using the fixed-width window method (Lope
 
 ---
 
-### Step 2 - Multi-Layer Perceptron (MLP)
+### Multi-Layer Perceptron (MLP)
 
 Each MLP uses a rolling window of 10 lags to predict the next value (regression task). An 80/20 train-test split preserving time order is applied. MinMaxScaler normalizes inputs. Architecture: Dense(64) → Dropout → Dense(32) → Dropout → Dense(1). Early stopping prevents overfitting.
 
-#### Step 2a - MLP on Price Levels
+#### MLP on Price Levels
 
 Training on non-stationary price levels produces misleadingly good R-squared values because the model learns to predict the trend rather than the actual dynamics. This approach fails to generalize as the model captures spurious correlations inherent in random walk processes.
 
-#### Step 2b - MLP on Log-Returns
+#### MLP on Log-Returns
 
 Using stationary log-returns provides more reliable forecasts. The model learns the actual return dynamics rather than trend-following behavior. The lower R-squared is preferable as it reflects realistic forecasting capability in financial markets.
 
-#### Step 2c - MLP on Fractionally Differenced Series
+#### MLP on Fractionally Differenced Series
 
 This approach balances stationarity with memory preservation. Results typically fall between the levels and log-returns models, capturing some long-term dependencies while maintaining stationarity.
 
-#### Step 2d - MLP Evaluation
+#### MLP Evaluation
 
 Non-stationary inputs create unreliable forecasts that appear accurate but fail in practice. Stationary transformations are essential for robust model generalization. For short-term forecasting, log-returns provide the most stable and generalizable results. For longer horizons where memory effects matter, fractional differencing offers a better balance.
 
 ---
 
-### Step 3 - CNN with Gramian Angular Field (GAF)
+### CNN with Gramian Angular Field (GAF)
 
 Time series windows are encoded into 2D image representations using Gramian Angular Field transformation (via `pyts`). The classification objective is to predict whether the next price will be higher (1) or lower/equal (0) than the current price. CNN architecture: Conv2D → MaxPooling2D → Conv2D → MaxPooling2D → Flatten → Dense(64) → Dropout → Dense(1, sigmoid).
 
-#### Step 3a - CNN on Price Levels with GAF
+#### CNN on Price Levels with GAF
 
 The CNN trained on GAF images from price levels shows moderate performance. The non-stationary nature of the underlying data introduces noise, but the GAF transformation helps the CNN identify some patterns.
 
-#### Step 3b - MLP on Log-Returns with GAF
+#### MLP on Log-Returns with GAF
 
 The GAF images are flattened into a 576-feature vector and fed to an MLP (Dense(256) → Dropout → Dense(128) → Dropout → Dense(64) → Dense(1)). Using stationary log-returns improves performance. The removal of trend effects allows the model to focus on directional patterns rather than being influenced by price levels.
 
-#### Step 3c - CNN on Fractionally Differenced with GAF
+#### CNN on Fractionally Differenced with GAF
 
 This representation often achieves the best balance, combining stationarity with preserved memory. The CNN captures both short-term directional patterns and longer-term dependencies.
 
-#### Step 3d - CNN Evaluation
+#### CNN Evaluation
 
 GAF-CNN models are computationally more intensive than MLPs but can capture complex spatial patterns invisible to flat-vector models. Stationary inputs consistently improve model reliability. The image-based approach is particularly advantageous for classification tasks.
 
 ---
 
-### Step 4 - CNN vs MLP Architecture Comparison
+### CNN vs MLP Architecture Comparison
 
 #### How Each Architecture Processes Data
 
