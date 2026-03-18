@@ -96,7 +96,7 @@ GAF-CNN models are computationally more intensive than MLPs but can capture comp
 
 #### How Each Architecture Processes Data
 
-**MLP** receives a flat vector of inputs — either lagged time series values or flattened GAF images. All features are treated independently through fully connected layers. The model has no inherent awareness of sequential order or spatial structure. It is fast, simple, and well-suited for regression on stationary inputs.
+**MLP** receives a flat vector of inputs, either lagged time series values or flattened GAF images. All features are treated independently through fully connected layers. The model has no inherent awareness of sequential order or spatial structure. It is fast, simple, and well-suited for regression on stationary inputs.
 
 **CNN** receives 2D GAF-encoded images and applies convolutional filters that scan local regions of the image, detecting spatial patterns such as angular shapes and textures that correspond to recurring temporal structures. Pooling layers progressively abstract these patterns into higher-level features.
 
